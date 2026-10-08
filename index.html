@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jadwal Pakaian</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&display=swap">
+<style>
+:root{--bg:#e8ebef;--card:#f6f7f9;--ink:#1c2430;--mute:#5d6877;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181f;--card:#1d232d;--ink:#e8ecf2;--mute:#97a2b3}}
+:root[data-theme="dark"]{--bg:#14181f;--card:#1d232d;--ink:#e8ecf2;--mute:#97a2b3}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+main{width:min(100vw,520px);margin:0 auto;padding:12px}
+.grid{aspect-ratio:1/1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:8px}
+.sq{position:relative;min-width:0;min-height:0;border-radius:10px;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+.sq.alt::after{content:"";position:absolute;inset:4px;border:2px dashed rgba(255,255,255,.75);border-radius:7px;pointer-events:none}
+.p{position:relative;min-height:0;overflow:hidden;padding:.6em .7em;display:flex;flex-direction:column;justify-content:flex-end;line-height:1.15;font-weight:500}
+.p.top{justify-content:space-between}
+.d{font-weight:800;font-size:1.12em;padding-right:1.5em}
+.ic{position:absolute;top:.6em;right:.6em;width:1.4em;height:1.4em;fill:currentColor;opacity:.9}
+.key{min-width:0;min-height:0;border-radius:10px;background:var(--card);padding:.7em;display:flex;flex-direction:column;justify-content:space-between;line-height:1.2;overflow:hidden}
+.key b{font-size:1.5em;font-weight:800;line-height:1.05}
+.key i{display:block;border-top:2px dashed var(--mute);margin-bottom:.4em}
+.key span{font-size:.85em;color:var(--mute)}
+.kawung,.kawung2{background-color:#111111;background-size:34px 34px}
+.kawung{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='%23e0455f'%3E%3Cellipse cx='17' cy='8' rx='4.2' ry='7.2'/%3E%3Cellipse cx='17' cy='26' rx='4.2' ry='7.2'/%3E%3Cellipse cx='8' cy='17' rx='7.2' ry='4.2'/%3E%3Cellipse cx='26' cy='17' rx='7.2' ry='4.2'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.2' fill='%23111111'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23e0455f'/%3E%3Ccircle cx='34' cy='0' r='2' fill='%23e0455f'/%3E%3Ccircle cx='0' cy='34' r='2' fill='%23e0455f'/%3E%3Ccircle cx='34' cy='34' r='2' fill='%23e0455f'/%3E%3C/svg%3E")}
+.kawung2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='%23a0693a'%3E%3Cellipse cx='17' cy='8' rx='4.2' ry='7.2'/%3E%3Cellipse cx='17' cy='26' rx='4.2' ry='7.2'/%3E%3Cellipse cx='8' cy='17' rx='7.2' ry='4.2'/%3E%3Cellipse cx='26' cy='17' rx='7.2' ry='4.2'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='2.2' fill='%23111111'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23a0693a'/%3E%3Ccircle cx='34' cy='0' r='2' fill='%23a0693a'/%3E%3Ccircle cx='0' cy='34' r='2' fill='%23a0693a'/%3E%3Ccircle cx='34' cy='34' r='2' fill='%23a0693a'/%3E%3C/svg%3E")}
+.kawung .d,.kawung span:last-child,.kawung2 .d,.kawung2 span:last-child{text-shadow:0 0 3px #000,0 0 5px #000}
+</style>
+</head>
+<body>
+<main>
+  <div class="grid" id="g"></div>
+</main>
+<script>
+var D=[
+ {h:"Senin",a:"Kemeja Mahogani",ca:"#6b2d1e",b:"Coklat Susu",cb:"#c8a98b"},
+ {h:"Selasa",a:"Kemeja Biru Muda",ca:"#9ec5e8",b:"Hitam Doff",cb:"#111111"},
+ {h:"Selasa · cadangan",alt:1,a:"Kemeja Hitam Dof",ca:"#111111",b:"Celana Abu",cb:"#808080"},
+ {h:"Rabu",a:"Kaos HO Biru Dongker",ca:"#1b2a49",b:"Hitam",cb:"#111111"},
+ {h:"Kamis",a:"Kemeja Army",ca:"#4b5320",b:"Coklat",cb:"#6b4226"},
+ {h:"Jumat",a:"Kemeja Batik Hitam mix Merah",ca:"#111111",k:"kawung",b:"Coklat",cb:"#6b4226"},
+ {h:"Jumat · opsi 2",alt:1,a:"Kemeja Batik Hitam mix Coklat",ca:"#111111",k:"kawung2",b:"Coklat",cb:"#6b4226"},
+ {h:"Sabtu",a:"Polo Hitam",ca:"#111111",b:"Abu-Abu",cb:"#808080"}
+];
+function fg(c){
+  if(c.indexOf("#")!==0||c.length<7)return "#fff";
+  var r=parseInt(c.substr(1,2),16),g=parseInt(c.substr(3,2),16),b=parseInt(c.substr(5,2),16);
+  return (0.299*r+0.587*g+0.114*b)>150?"#111":"#fff";
+}
+var shirt='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-1 2-7 2-8 0z"/></svg>';
+var pants='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l1 18h-5l-1-11-1 11H6z"/></svg>';
+var g=document.getElementById("g");
+g.innerHTML='<div class="key"><b>Jadwal Pakaian</b><div><i></i><span>Garis putus-putus = setelan cadangan</span></div></div>';
+D.forEach(function(d){
+  var s=document.createElement("div");
+  s.className="sq"+(d.alt?" alt":"");
+  s.innerHTML='<div class="p top'+(d.k?' '+d.k:'')+'" style="background-color:'+d.ca+';color:'+fg(d.ca)+'">'+shirt+'<span class="d">'+d.h+'</span><span>'+d.a+'</span></div>'+
+   '<div class="p" style="background-color:'+d.cb+';color:'+fg(d.cb)+'">'+pants+'<span>'+d.b+'</span></div>';
+  g.appendChild(s);
+});
+function fit(){
+  var cells=g.children,w=cells[1].clientWidth,base=Math.max(9,w*0.105);
+  Array.prototype.forEach.call(cells,function(c){
+    var parts=c.classList.contains("key")?[c]:c.children;
+    Array.prototype.forEach.call(parts,function(el){
+      var fs=base;el.style.fontSize=fs+"px";
+      while(el.scrollHeight>el.clientHeight+1&&fs>7){fs-=0.5;el.style.fontSize=fs+"px"}
+    });
+  });
+}
+fit();
+window.addEventListener("resize",fit);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+</script>
+</body>
+</html>
